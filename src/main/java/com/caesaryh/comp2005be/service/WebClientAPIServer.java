@@ -7,7 +7,6 @@ import com.caesaryh.comp2005be.model.Allocation;
 import com.caesaryh.comp2005be.model.Employee;
 import com.caesaryh.comp2005be.model.Patient;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatusCode;
@@ -20,7 +19,9 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class MaternityApiService {
+public class WebClientAPIServer {
+
+    private final String baseUrl = "https://web.socem.plymouth.ac.uk/COMP2005/api";
 
     // RestTemplate方式注入
     private final RestTemplate apiRestTemplate;
@@ -28,15 +29,9 @@ public class MaternityApiService {
     // WebClient方式注入
     private final WebClient maternityApiClient;
 
-    @Autowired
-    public MaternityApiService(WebClient maternityApiClient, RestTemplate apiRestTemplate) {
-        this.maternityApiClient = maternityApiClient;
-        this.apiRestTemplate = apiRestTemplate;
-    }
-
     public List<Admission> getAllAdmissions() {
         ResponseEntity<List<Admission>> response = apiRestTemplate.exchange(
-                "/Admissions",
+                baseUrl + "/Admissions",
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<List<Admission>>() {}
@@ -63,7 +58,7 @@ public class MaternityApiService {
 
     public List<Allocation> getAllAllocations() {
         ResponseEntity<List<Allocation>> response = apiRestTemplate.exchange(
-                "/Allocations",
+                baseUrl + "/Allocations",
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<List<Allocation>>() {}
@@ -88,7 +83,7 @@ public class MaternityApiService {
 
     public List<Employee> getAllEmployees() {
         ResponseEntity<List<Employee>> response = apiRestTemplate.exchange(
-                "/Employees",
+                baseUrl + "/Employees",
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<List<Employee>>() {}
@@ -113,7 +108,7 @@ public class MaternityApiService {
 
     public List<Patient> getAllPatients() {
         ResponseEntity<List<Patient>> response = apiRestTemplate.exchange(
-                "/Patients",
+                baseUrl + "/Patients",
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<List<Patient>>() {}
